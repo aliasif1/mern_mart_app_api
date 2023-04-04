@@ -11,22 +11,22 @@ const app = express();
 
 const allowedOrigins = [process.env.ORIGIN];
 
-// app.use(cors({
-//   origin: function (origin, callback) {
-//     // allow requests from allowed origins
-//     if (allowedOrigins.indexOf(origin) !== -1) {
-//       return callback(null, true);
-//     }
-//     // do not allow requests without an origin (like curl or mobile app requests)
-//     if (!origin) {
-//       return callback(new Error('Not allowed by CORS'), false);
-//     }
-//     // otherwise, deny the request
-//     return callback(new Error('Not allowed by CORS'), false);
-//   }
-// }));
+app.use(cors({
+  origin: function (origin, callback) {
+    // allow requests from allowed origins
+    if (allowedOrigins.indexOf(origin) !== -1) {
+      return callback(null, true);
+    }
+    // do not allow requests without an origin (like curl or mobile app requests)
+    if (!origin) {
+      return callback(new Error('Not allowed by CORS'), false);
+    }
+    // otherwise, deny the request
+    return callback(new Error('Not allowed by CORS'), false);
+  }
+}));
 
-app.use(cors());
+// app.use(cors());
 app.use(express.json());
 app.use('/api/auth', authRouter);
 app.use('/api/users', userRouter);
